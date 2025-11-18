@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Reporte Red Norte - SETI 2025</title>
+
+  <!-- Fuente -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e0edff 0, #f3f4f6 55%, #eef2ff 100%);
+    }
+    html,body { scroll-behavior:smooth; }
+
+    .soft { box-shadow: 0 14px 40px rgba(15,23,42,.08); }
+    .soft-2 { box-shadow: 0 10px 30px rgba(15,23,42,.10); }
+
+    input[type="number"] {
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+    }
+
+    .btn-trama svg { width: 18px; height: 18px; }
+
+    .badge-title::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #22c55e;
+      margin-right: 8px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body class="text-slate-800">
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-r from-slate-900 via-slate-900 to-blue-700 text-white shadow-lg">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <!-- Logo reemplazable (por ejemplo MINSA) -->
+        <img id="logoMinsa" src="img/logo-minsa.png" alt="Logo"
+             class="h-10 w-auto object-contain hidden sm:block">
+
+        <div>
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-200" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 2a2 2 0 00-2 2v16a1 1 0 001.447.894L9 19.118l3.553 1.776a1 1 0 00.894 0L17 19.118l3.553 1.776A1 1 0 0022 20V4a2 2 0 00-2-2H6z"/>
+            </svg>
+            <h1 class="text-xl md:text-2xl font-bold tracking-tight">
+              REPORTE RED NORTE - SETI 2025
+            </h1>
+          </div>
+          <p class="text-xs md:text-sm text-blue-100 mt-1">
+            Generación de tramas A, D1, D2, E, F y J para envío a SETI.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-end gap-2">
+        <!-- Cambiar logo -->
+        <label class="cursor-pointer inline-flex items-center gap-2 text-[11px] md:text-xs px-3 py-1 rounded-full bg-blue-600 hover:bg-blue-500">
+          Cambiar logo
+          <input id="logoInput" type="file" accept="image/*" class="hidden">
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 pb-16">
+
+    <!-- NAV TRAMAS -->
+    <section class="mt-6 mb-6 soft-2 bg-white rounded-2xl px-5 py-4">
+      <p class="badge-title text-xs md:text-sm font-medium text-slate-500 mb-3">
+        Seleccione el tipo de reporte
+      </p>
+      <div class="grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
+        <button data-target="tramaA"
+                class="btn-trama flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200
+                       bg-slate-50 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 2a2 2 0 00-2 2v16a1 1 0 001.447.894L9 19.118l3.553 1.776a1 1 0 00.894 0L17 19.118l3.553 1.776A1 1 0 0022 20V4a2 2 0 00-2-2H6z"/>
+          </svg>
+          TRAMA A
+        </button>
+        <button data-target="tramaJ"
+                class="btn-trama flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200
+                       bg-slate-50 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4 4a2 2 0 012-2h8a2 2 0 012 2v2h2a2 2 0 012 2v12a1 1 0 01-1.447.894L16 19.118l-3.553 1.776a1 1 0 01-.894 0L8 19.118l-3.553 1.776A1 1 0 013 20V6a2 2 0 011-1.732V4z"/>
+          </svg>
+          TRAMA J
+        </button>
+        <button data-target="tramaD1"
+                class="btn-trama flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200
+                       bg-slate-50 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M5 3a2 2 0 00-2 2v14a1 1 0 001.447.894L8 18.118l3.553 1.776a1 1 0 00.894 0L16 18.118l3.553 1.776A1 1 0 0021 19V5a2 2 0 00-2-2H5z"/>
+          </svg>
+          TRAMA D1
+        </button>
+        <button data-target="tramaD2"
+                class="btn-trama flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200
+                       bg-slate-50 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4 5a2 2 0 012-2h7a2 2 0 012 2v3h3a2 2 0 012 2v9a1 1 0 01-1.447.894L15 18.118l-3.553 1.776a1 1 0 01-.894 0L7 18.118l-3.553 1.776A1 1 0 012 19V7a2 2 0 012-2z"/>
+          </svg>
+          TRAMA D2
+        </button>
+        <button data-target="tramaE"
+                class="btn-trama flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200
+                       bg-slate-50 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M4 6a2 2 0 012-2h12a2 2 0 012 2v3H4V6zm0 5h16v7a2 2 0 01-2 2H6a2 2 0 01-2-2v-7z"/>
+          </svg>
+          TRAMA E
+        </button>
+        <button data-target="tramaF"
+                class="btn-trama flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200
+                       bg-slate-50 text-slate-700 text-sm font-semibold hover:bg-slate-100 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 5a2 2 0 012-2h14a2 2 0 012 2v3H3V5zm0 5h18v9a2 2 0 01-2 2H5a2 2 0 01-2-2v-9z"/>
+          </svg>
+          TRAMA F
+        </button>
+      </div>
+    </section>
+
+    <!-- ================= TRAMA A ================= -->
+    <section id="tramaA" data-trama class="soft bg-white rounded-2xl p-6 space-y-6">
+      <h2 class="text-lg md:text-xl font-semibold text-slate-800 mb-2">
+        Formulario TRAMA A REPORTE DE RECURSOS DE SALUD
+      </h2>
+
+      <!-- Datos principales -->
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Periodo de Reporte</label>
+          <input id="a_periodo" type="month"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la IPRESS</label>
+          <input id="a_ipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la UGIPRESS</label>
+          <input id="a_ugipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+      </div>
+
+      <!-- Infraestructura -->
+      <div>
+        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">Infraestructura y Equipamiento</p>
+        <div class="grid md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Consultorios Físicos</label>
+            <input id="a_cf" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-emerald-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Consultorios Funcionales</label>
+            <input id="a_cfunc" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-emerald-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Camas Hospitalarias</label>
+            <input id="a_camas" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-emerald-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Ambulancias</label>
+            <input id="a_ambu" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-emerald-200">
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal médico principal -->
+      <div>
+        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">Personal Médico Principal</p>
+        <div class="grid md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Total de Médicos</label>
+            <input id="a_tmed" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-rose-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Médicos SERUMS</label>
+            <input id="a_serums" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-rose-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Médicos Residentes</label>
+            <input id="a_res" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-rose-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Enfermeras</label>
+            <input id="a_enf" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-rose-200">
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal especializado -->
+      <div>
+        <p class="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">Personal Especializado</p>
+        <div class="grid md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Odontólogos</label>
+            <input id="a_odo" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-violet-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Psicólogos</label>
+            <input id="a_psi" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-violet-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Nutricionistas</label>
+            <input id="a_nut" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-violet-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Tecnólogos Médicos</label>
+            <input id="a_tec" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-violet-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Obstétricos</label>
+            <input id="a_obs" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-violet-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Farmacéuticos</label>
+            <input id="a_far" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-violet-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Auxiliares/Técnicos</label>
+            <input id="a_aux" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-violet-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Asistenciales</label>
+            <input id="a_asis" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-violet-200">
+          </div>
+          <div>
+            <label class="block text-xs text-slate-500 mb-1">Otros profesionales</label>
+            <input id="a_otros" type="number" min="0" step="1" value="0"
+                   class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-violet-200">
+          </div>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="grid md:grid-cols-3 gap-3 pt-2">
+        <button id="a_btnDescargar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-blue-600 text-white hover:bg-blue-700 flex items-center justify-center gap-2">
+          <span>Descargar TXT (TAA0)</span>
+        </button>
+        <button id="a_btnEjemplo"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-emerald-500 text-white hover:bg-emerald-600">
+          Rellenar ejemplo
+        </button>
+        <button id="a_btnLimpiar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300">
+          Limpiar formulario
+        </button>
+      </div>
+
+      <!-- Vista previa -->
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs text-slate-500">Vista previa de la línea TRAMA A</span>
+          <div class="flex items-center gap-2">
+            <button id="a_btnCopiar" type="button"
+                    class="text-[11px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300">
+              Copiar cadena
+            </button>
+            <span id="a_estado"
+                  class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">—</span>
+          </div>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <code id="a_preview"
+                class="block font-mono text-xs break-all text-slate-800">—</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TRAMA D1 ================= -->
+    <section id="tramaD1" data-trama class="soft bg-white rounded-2xl p-6 space-y-6 hidden">
+      <h2 class="text-lg md:text-xl font-semibold mb-2">TRAMA D1 – Servicio / Especialidad (Catálogo UPS)</h2>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Periodo de Reporte</label>
+          <input id="d1_periodo" type="month"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la IPRESS</label>
+          <input id="d1_ipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la UGIPRESS</label>
+          <input id="d1_ugipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <p class="text-xs text-slate-500 font-medium">
+            Detalle por Servicio / Especialidad (puedes agregar varias filas)
+          </p>
+          <button id="d1_addRow" type="button"
+                  class="px-4 py-2 rounded-xl bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600">
+            + Agregar Servicio / Especialidad
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-[11px] md:text-xs">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="px-2 py-1 text-left font-semibold">Servicio / Especialidad Catálogo UPS</th>
+                <th class="px-2 py-1 text-center font-semibold">Ingresos</th>
+                <th class="px-2 py-1 text-center font-semibold">Egresos</th>
+                <th class="px-2 py-1 text-center font-semibold">Estancias</th>
+                <th class="px-2 py-1 text-center font-semibold">Pacientes Días</th>
+                <th class="px-2 py-1 text-center font-semibold">Camas</th>
+                <th class="px-2 py-1 text-center font-semibold">Días Cama Disponible</th>
+                <th class="px-2 py-1 text-center font-semibold">Fallecidos</th>
+                <th class="px-2 py-1 text-center font-semibold">Quitar</th>
+              </tr>
+            </thead>
+            <tbody id="d1_body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        <button id="d1_btnDescargar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-blue-600 text-white hover:bg-blue-700">
+          Descargar TXT (D1)
+        </button>
+        <button id="d1_btnLimpiar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300">
+          Limpiar
+        </button>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs text-slate-500">Vista previa (una línea por servicio)</span>
+          <div class="flex items-center gap-2">
+            <button id="d1_btnCopiar" type="button"
+                    class="text-[11px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300">
+              Copiar cadena
+            </button>
+            <span id="d1_estado"
+                  class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">Sin filas</span>
+          </div>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <pre id="d1_preview"
+               class="whitespace-pre-wrap font-mono text-[11px] md:text-xs text-slate-800">—</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TRAMA D2 ================= -->
+    <section id="tramaD2" data-trama class="soft bg-white rounded-2xl p-6 space-y-6 hidden">
+      <h2 class="text-lg md:text-xl font-semibold mb-2">TRAMA D2 – Egresos por Diagnóstico</h2>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Periodo de Reporte</label>
+          <input id="d2_periodo" type="month"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la IPRESS</label>
+          <input id="d2_ipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la UGIPRESS</label>
+          <input id="d2_ugipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <p class="text-xs text-slate-500 font-medium">
+            Detalle de egresos (un diagnóstico por fila)
+          </p>
+          <button id="d2_addRow" type="button"
+                  class="px-4 py-2 rounded-xl bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600">
+            + Agregar Diagnóstico
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-[11px] md:text-xs">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="px-2 py-1 text-left font-semibold">Sexo del Paciente</th>
+                <th class="px-2 py-1 text-left font-semibold">Grupo de Edad en años</th>
+                <th class="px-2 py-1 text-left font-semibold">Diagnóstico de Egreso</th>
+                <th class="px-2 py-1 text-center font-semibold">Egresos</th>
+                <th class="px-2 py-1 text-center font-semibold">Quitar</th>
+              </tr>
+            </thead>
+            <tbody id="d2_body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        <button id="d2_btnDescargar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-blue-600 text-white hover:bg-blue-700">
+          Descargar TXT (D2)
+        </button>
+        <button id="d2_btnLimpiar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300">
+          Limpiar
+        </button>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs text-slate-500">Vista previa (una línea por diagnóstico)</span>
+          <div class="flex items-center gap-2">
+            <button id="d2_btnCopiar" type="button"
+                    class="text-[11px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300">
+              Copiar cadena
+            </button>
+            <span id="d2_estado"
+                  class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">Sin filas</span>
+          </div>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <pre id="d2_preview"
+               class="whitespace-pre-wrap font-mono text-[11px] md:text-xs text-slate-800">—</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TRAMA E ================= -->
+    <section id="tramaE" data-trama class="soft bg-white rounded-2xl p-6 space-y-6 hidden">
+      <h2 class="text-lg md:text-xl font-semibold mb-2">TRAMA E – Partos y Nacimientos</h2>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Periodo de Reporte</label>
+          <input id="e_periodo" type="month"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la IPRESS</label>
+          <input id="e_ipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la UGIPRESS</label>
+          <input id="e_ugipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <p class="text-xs text-slate-500 font-medium">
+            Detalle de partos (un registro por fila)
+          </p>
+          <button id="e_addRow" type="button"
+                  class="px-4 py-2 rounded-xl bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600">
+            + Agregar fila de parto
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-[11px] md:text-xs">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="px-2 py-1 text-left font-semibold">Tipo de Parto</th>
+                <th class="px-2 py-1 text-left font-semibold">Complicación del Parto</th>
+                <th class="px-2 py-1 text-center font-semibold">Partos</th>
+                <th class="px-2 py-1 text-center font-semibold">Total de Nacimientos</th>
+                <th class="px-2 py-1 text-center font-semibold">Nacimientos Vivos</th>
+                <th class="px-2 py-1 text-center font-semibold">Nacimientos Muertos</th>
+                <th class="px-2 py-1 text-center font-semibold">Quitar</th>
+              </tr>
+            </thead>
+            <tbody id="e_body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        <button id="e_btnDescargar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-blue-600 text-white hover:bg-blue-700">
+          Descargar TXT (E)
+        </button>
+        <button id="e_btnLimpiar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300">
+          Limpiar
+        </button>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs text-slate-500">Vista previa (una línea por fila de parto)</span>
+          <div class="flex items-center gap-2">
+            <button id="e_btnCopiar" type="button"
+                    class="text-[11px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300">
+              Copiar cadena
+            </button>
+            <span id="e_estado"
+                  class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">Sin filas</span>
+          </div>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <pre id="e_preview"
+               class="whitespace-pre-wrap font-mono text-[11px] md:text-xs text-slate-800">—</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TRAMA F ================= -->
+    <section id="tramaF" data-trama class="soft bg-white rounded-2xl p-6 space-y-6 hidden">
+      <h2 class="text-lg md:text-xl font-semibold mb-2">TRAMA F – Eventos por Grupo de Edad</h2>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Periodo de Reporte</label>
+          <input id="f_periodo" type="month"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la IPRESS</label>
+          <input id="f_ipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la UGIPRESS</label>
+          <input id="f_ugipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <p class="text-xs text-slate-500 font-medium">
+            Detalle de eventos (desde Sexo del Paciente)
+          </p>
+          <button id="f_addRow" type="button"
+                  class="px-4 py-2 rounded-xl bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600">
+            + Agregar fila
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-[11px] md:text-xs">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="px-2 py-1 text-left font-semibold">Sexo del Paciente</th>
+                <th class="px-2 py-1 text-left font-semibold">Grupo de Edad en años</th>
+                <th class="px-2 py-1 text-center font-semibold">Eventos</th>
+                <th class="px-2 py-1 text-center font-semibold">Total</th>
+                <th class="px-2 py-1 text-center font-semibold">Quitar</th>
+              </tr>
+            </thead>
+            <tbody id="f_body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        <button id="f_btnDescargar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-blue-600 text-white hover:bg-blue-700">
+          Descargar TXT (F)
+        </button>
+        <button id="f_btnLimpiar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300">
+          Limpiar
+        </button>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs text-slate-500">Vista previa (una línea por fila)</span>
+          <div class="flex items-center gap-2">
+            <button id="f_btnCopiar" type="button"
+                    class="text-[11px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300">
+              Copiar cadena
+            </button>
+            <span id="f_estado"
+                  class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">Sin filas</span>
+          </div>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <pre id="f_preview"
+               class="whitespace-pre-wrap font-mono text-[11px] md:text-xs text-slate-800">—</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TRAMA J ================= -->
+    <section id="tramaJ" data-trama class="soft bg-white rounded-2xl p-6 space-y-6 hidden">
+      <h2 class="text-lg md:text-xl font-semibold mb-2">TRAMA J – Horas Programadas por Colegio Profesional</h2>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Periodo de Reporte</label>
+          <input id="j_periodo" type="month"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la IPRESS</label>
+          <input id="j_ipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+        <div>
+          <label class="block text-xs text-slate-500 mb-1">Código de la UGIPRESS</label>
+          <input id="j_ugipress" type="number" min="0" step="1"
+                 class="w-full rounded-lg border border-slate-200 p-2.5 focus:ring-4 focus:ring-indigo-200"
+                 placeholder="Ej. 00002389">
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <p class="text-xs text-slate-500 font-medium">
+            Detalle por Código de Colegio Profesional
+          </p>
+          <button id="j_addRow" type="button"
+                  class="px-4 py-2 rounded-xl bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600">
+            + Agregar Código de Colegio
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-[11px] md:text-[11px]">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="px-2 py-1 text-left font-semibold">Código Colegio</th>
+                <th class="px-2 py-1 text-center font-semibold">Total Profesionales</th>
+                <th class="px-2 py-1 text-center font-semibold">Horas Ambulatoria</th>
+                <th class="px-2 py-1 text-center font-semibold">Horas Emergencia</th>
+                <th class="px-2 py-1 text-center font-semibold">Horas Hospitalización</th>
+                <th class="px-2 py-1 text-center font-semibold">Horas Administrativas</th>
+                <th class="px-2 py-1 text-center font-semibold">Horas Capacitación</th>
+                <th class="px-2 py-1 text-center font-semibold">Horas Centro Quirúrgico</th>
+                <th class="px-2 py-1 text-center font-semibold">Horas Centro Obstétrico</th>
+                <th class="px-2 py-1 text-center font-semibold">Horas Procedimientos</th>
+                <th class="px-2 py-1 text-center font-semibold">Horas Otras Actividades</th>
+                <th class="px-2 py-1 text-center font-semibold">Quitar</th>
+              </tr>
+            </thead>
+            <tbody id="j_body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        <button id="j_btnDescargar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-blue-600 text-white hover:bg-blue-700">
+          Descargar TXT (TAJ0)
+        </button>
+        <button id="j_btnLimpiar"
+                class="rounded-xl px-5 py-2.5 font-semibold bg-slate-200 text-slate-800 hover:bg-slate-300">
+          Limpiar
+        </button>
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-xs text-slate-500">Vista previa (una línea por código de colegio)</span>
+          <div class="flex items-center gap-2">
+            <button id="j_btnCopiar" type="button"
+                    class="text-[11px] px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 hover:bg-slate-300">
+              Copiar cadena
+            </button>
+            <span id="j_estado"
+                  class="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">Sin filas</span>
+          </div>
+        </div>
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <pre id="j_preview"
+               class="whitespace-pre-wrap font-mono text-[11px] md:text-xs text-slate-800">—</pre>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================= SCRIPTS ========================= -->
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    // ------- Helpers --------
+    function parsePeriodo(raw) {
+      if (!raw) return null;
+      raw = raw.trim();
+      let m = raw.match(/^(\d{4})-(\d{2})$/);
+      if (m) return { anio: m[1], mes: m[2], yyyymm: m[1] + m[2] };
+      m = raw.match(/^(\d{4})(\d{2})$/);
+      if (m) return { anio: m[1], mes: m[2], yyyymm: raw };
+      raw = raw.replace(/[^\d]/g, '');
+      if (raw.length >= 6) {
+        return { anio: raw.slice(0,4), mes: raw.slice(4,6), yyyymm: raw.slice(0,6) };
+      }
+      return null;
+    }
+
+    function normInt(v) {
+      const n = parseInt(v, 10);
+      return Number.isFinite(n) && n >= 0 ? n : 0;
+    }
+
+    function padIpres(v) {
+      const n = normInt(v);
+      return String(n).padStart(8, '0');
+    }
+
+    function esCodigo8Digitos(valor) {
+      return /^\d{8}$/.test(String(valor).trim());
+    }
+
+    function validarCodigos(ipId, ugId) {
+      const ipEl = $(ipId);
+      const ugEl = $(ugId);
+      const ip = ipEl.value.trim();
+      const ug = ugEl.value.trim();
+
+      if (!esCodigo8Digitos(ip)) {
+        alert('El código de la IPRESS debe tener exactamente 8 dígitos (ejemplo: 00002389).');
+        ipEl.focus();
+        return false;
+      }
+      if (!esCodigo8Digitos(ug)) {
+        alert('El código de la UGIPRESS debe tener exactamente 8 dígitos (ejemplo: 00002389).');
+        ugEl.focus();
+        return false;
+      }
+      return true;
+    }
+
+    // Limitar siempre a 8 dígitos en todos los códigos IPRESS/UGIPRESS
+    const camposCodigos8 = [
+      'a_ipress','a_ugipress',
+      'd1_ipress','d1_ugipress',
+      'd2_ipress','d2_ugipress',
+      'e_ipress','e_ugipress',
+      'f_ipress','f_ugipress',
+      'j_ipress','j_ugipress'
+    ];
+    camposCodigos8.forEach(id => {
+      const el = $(id);
+      if (!el) return;
+      el.addEventListener('input', () => {
+        let val = String(el.value).replace(/\D/g, '');
+        if (val.length > 8) val = val.slice(0, 8);
+        el.value = val;
+      });
+    });
+
+    // Nombre de archivo: [IPRESS]_[AÑO]_[MES].[TRAMA].TXT
+    function buildFileName(ipress, periodoRaw, tramaCode) {
+      const info = parsePeriodo(periodoRaw);
+      if (!info) return null;
+      const ip = padIpres(ipress);
+      return ip + '_' + info.anio + '_' + info.mes + '.' + tramaCode + '.TXT';
+    }
+
+    function descargarTexto(cadena, fileName) {
+      if (!cadena) {
+        alert('No hay contenido para descargar.');
+        return;
+      }
+      if (!fileName) {
+        alert('Periodo inválido. Use YYYY-MM.');
+        return;
+      }
+      const blob = new Blob([cadena + '\n'], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function copiarAlPortapapeles(texto) {
+      const txt = (texto || '').trim();
+      if (!txt || txt === '—') {
+        alert('No hay cadena generada para copiar.');
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(txt)
+          .then(() => alert('Cadena copiada al portapapeles.'))
+          .catch(() => fallbackCopiar(txt));
+      } else {
+        fallbackCopiar(txt);
+      }
+    }
+
+    function fallbackCopiar(txt) {
+      const area = document.createElement('textarea');
+      area.value = txt;
+      document.body.appendChild(area);
+      area.select();
+      try { document.execCommand('copy'); alert('Cadena copiada al portapapeles.'); }
+      catch(e) { alert('No se pudo copiar automáticamente. Copie manualmente.'); }
+      document.body.removeChild(area);
+    }
+
+    // Navegación entre tramas
+    const tramaButtons = document.querySelectorAll('[data-target]');
+    const tramaSections = document.querySelectorAll('section[data-trama]');
+
+    tramaButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.target;
+        tramaSections.forEach(sec => {
+          sec.classList.toggle('hidden', sec.id !== target);
+        });
+        tramaButtons.forEach(b => {
+          if (b === btn) {
+            b.classList.add('bg-indigo-600','text-white','border-indigo-600');
+            b.classList.remove('bg-slate-50','text-slate-700');
+          } else {
+            b.classList.remove('bg-indigo-600','text-white','border-indigo-600');
+            b.classList.add('bg-slate-50','text-slate-700');
+          }
+        });
+      });
+    });
+
+    // Mostrar TRAMA A al inicio
+    const btnDefault = document.querySelector('[data-target="tramaA"]');
+    if (btnDefault) btnDefault.click();
+
+    // ================= TRAMA A =================
+    const aInputs = [
+      'a_periodo','a_ipress','a_ugipress','a_cf','a_cfunc','a_camas','a_tmed','a_serums',
+      'a_res','a_enf','a_odo','a_psi','a_nut','a_tec','a_obs','a_far','a_aux','a_asis','a_otros','a_ambu'
+    ].map($);
+
+    function buildTramaACadena() {
+      const info = parsePeriodo($('a_periodo').value);
+      if (!info) return '';
+      const arr = [
+        info.yyyymm,
+        padIpres($('a_ipress').value),
+        padIpres($('a_ugipress').value),
+        normInt($('a_cf').value),
+        normInt($('a_cfunc').value),
+        normInt($('a_camas').value),
+        normInt($('a_tmed').value),
+        normInt($('a_serums').value),
+        normInt($('a_res').value),
+        normInt($('a_enf').value),
+        normInt($('a_odo').value),
+        normInt($('a_psi').value),
+        normInt($('a_nut').value),
+        normInt($('a_tec').value),
+        normInt($('a_obs').value),
+        normInt($('a_far').value),
+        normInt($('a_aux').value),
+        normInt($('a_asis').value),
+        normInt($('a_otros').value),
+        normInt($('a_ambu').value)
+      ];
+      return arr.join('|');
+    }
+
+    function updatePreviewA() {
+      const cad = buildTramaACadena();
+      $('a_preview').textContent = cad || '—';
+      if (!cad) {
+        $('a_estado').textContent = 'Sin datos';
+        $('a_estado').className = 'text-[11px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600';
+        return;
+      }
+      const campos = cad.split('|').length;
+      const ok = campos === 20;
+      $('a_estado').textContent = ok ? 'OK: 20 campos' : ('Campos: ' + campos + '/20');
+      $('a_estado').className = 'text-[11px] px-2 py-0.5 rounded-full ' +
+        (ok ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700');
+    }
+
+    aInputs.forEach(el => el && el.addEventListener('input', updatePreviewA));
+
+    $('a_btnDescargar').addEventListener('click', () => {
+      if (!validarCodigos('a_ipress','a_ugipress')) return;
+      const cad = buildTramaACadena();
+      const fn = buildFileName($('a_ipress').value, $('a_periodo').value, 'TAA0');
+      descargarTexto(cad, fn);
+    });
+
+    $('a_btnEjemplo').addEventListener('click', () => {
+      $('a_periodo').value = '2025-11';
+      $('a_ipress').value = '00002389';
+      $('a_ugipress').value = '00002389';
+      const data = {
+        a_cf:5,a_cfunc:8,a_camas:10,a_tmed:15,a_serums:1,a_res:1,a_enf:10,
+        a_odo:1,a_psi:1,a_nut:1,a_tec:2,a_obs:3,a_far:1,a_aux:5,a_asis:12,a_otros:2,a_ambu:1
+      };
+      Object.keys(data).forEach(id => { if ($(id)) $(id).value = String(data[id]); });
+      updatePreviewA();
+    });
+
+    $('a_btnLimpiar').addEventListener('click', () => {
+      aInputs.forEach(el => {
+        if (!el) return;
+        if (el.id === 'a_periodo' || el.id === 'a_ipress' || el.id === 'a_ugipress') el.value = '';
+        else el.value = '0';
+      });
+      updatePreviewA();
+    });
+
+    $('a_btnCopiar').addEventListener('click', () => {
+      copiarAlPortapapeles($('a_preview').textContent);
+    });
+
+    updatePreviewA();
+
+    // ================= TRAMA D1 =================
+    function createD1Row() {
+      const tbody = $('d1_body');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="px-2 py-1">
+          <input type="text" class="d1_servicio w-full rounded-lg border border-slate-200 p-1.5" placeholder="Código / nombre UPS">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="d1_ingresos w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="d1_egresos w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="d1_estancias w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="d1_pacdias w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="d1_camas w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="d1_dcama w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="d1_fallecidos w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <button type="button" class="d1_del text-[11px] text-rose-600 hover:underline">Quitar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+      tr.querySelectorAll('input').forEach(inp => inp.addEventListener('input', updatePreviewD1));
+      tr.querySelector('.d1_del').addEventListener('click', () => { tr.remove(); updatePreviewD1(); });
+    }
+
+    function buildTramaD1Cadena() {
+      const info = parsePeriodo($('d1_periodo').value);
+      if (!info) return '';
+      const ip = padIpres($('d1_ipress').value);
+      const ug = padIpres($('d1_ugipress').value);
+      const rows = Array.from(document.querySelectorAll('#d1_body tr'));
+      const lines = [];
+      rows.forEach(tr => {
+        const serv = tr.querySelector('.d1_servicio').value.trim();
+        if (!serv) return;
+        const ing = normInt(tr.querySelector('.d1_ingresos').value);
+        const egr = normInt(tr.querySelector('.d1_egresos').value);
+        const est = normInt(tr.querySelector('.d1_estancias').value);
+        const pd  = normInt(tr.querySelector('.d1_pacdias').value);
+        const cam = normInt(tr.querySelector('.d1_camas').value);
+        const dc  = normInt(tr.querySelector('.d1_dcama').value);
+        const fal = normInt(tr.querySelector('.d1_fallecidos').value);
+        lines.push([info.yyyymm, ip, ug, serv, ing, egr, est, pd, cam, dc, fal].join('|'));
+      });
+      return lines.join('\n');
+    }
+
+    function updatePreviewD1() {
+      const cad = buildTramaD1Cadena();
+      $('d1_preview').textContent = cad || '—';
+      const filas = cad ? cad.split('\n').length : 0;
+      $('d1_estado').textContent = filas ? filas + ' fila(s)' : 'Sin filas';
+    }
+
+    $('d1_addRow').addEventListener('click', () => { createD1Row(); updatePreviewD1(); });
+    ['d1_periodo','d1_ipress','d1_ugipress'].forEach(id => $(id).addEventListener('input', updatePreviewD1));
+
+    $('d1_btnDescargar').addEventListener('click', () => {
+      if (!validarCodigos('d1_ipress','d1_ugipress')) return;
+      const cad = buildTramaD1Cadena();
+      const fn = buildFileName($('d1_ipress').value, $('d1_periodo').value, 'TAD1');
+      descargarTexto(cad, fn);
+    });
+
+    $('d1_btnLimpiar').addEventListener('click', () => {
+      $('d1_periodo').value = '';
+      $('d1_ipress').value = '';
+      $('d1_ugipress').value = '';
+      $('d1_body').innerHTML = '';
+      createD1Row();
+      updatePreviewD1();
+    });
+
+    $('d1_btnCopiar').addEventListener('click', () => {
+      copiarAlPortapapeles($('d1_preview').textContent);
+    });
+
+    createD1Row();
+    updatePreviewD1();
+
+    // ================= TRAMA D2 =================
+    function createD2Row() {
+      const tbody = $('d2_body');
+
+      let sexoDefault = '';
+      let grupoDefault = '';
+      let egrDefault = 0;
+
+      const lastRow = tbody.lastElementChild;
+      if (lastRow) {
+        const s = lastRow.querySelector('.d2_sexoRow');
+        const g = lastRow.querySelector('.d2_grupoRow');
+        const e = lastRow.querySelector('.d2_egresosRow');
+        if (s) sexoDefault = s.value || '';
+        if (g) grupoDefault = g.value.trim();
+        if (e) egrDefault = e.value;
+      }
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="px-2 py-1">
+          <select class="d2_sexoRow w-full rounded-lg border border-slate-200 p-1.5">
+            <option value="">Seleccionar…</option>
+            <option value="M"${sexoDefault === 'M' ? ' selected' : ''}>M</option>
+            <option value="F"${sexoDefault === 'F' ? ' selected' : ''}>F</option>
+            <option value="O"${sexoDefault === 'O' ? ' selected' : ''}>O</option>
+          </select>
+        </td>
+        <td class="px-2 py-1">
+          <input type="text"
+                 class="d2_grupoRow w-full rounded-lg border border-slate-200 p-1.5"
+                 placeholder="Ej. 15-19"
+                 value="${grupoDefault}">
+        </td>
+        <td class="px-2 py-1">
+          <input type="text"
+                 class="d2_diag w-full rounded-lg border border-slate-200 p-1.5"
+                 placeholder="Código / descripción del diagnóstico">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0"
+                 class="d2_egresosRow w-full rounded-lg border border-slate-200 p-1.5"
+                 value="${egrDefault || 0}">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <button type="button"
+                  class="d2_del text-[11px] text-rose-600 hover:underline">Quitar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+
+      tr.querySelectorAll('input, select').forEach(inp =>
+        inp.addEventListener('input', updatePreviewD2)
+      );
+      tr.querySelector('.d2_del').addEventListener('click', () => {
+        tr.remove();
+        updatePreviewD2();
+      });
+    }
+
+    function buildTramaD2Cadena() {
+      const info = parsePeriodo($('d2_periodo').value);
+      if (!info) return '';
+      const ip = padIpres($('d2_ipress').value);
+      const ug = padIpres($('d2_ugipress').value);
+
+      const rows = Array.from(document.querySelectorAll('#d2_body tr'));
+      const lines = [];
+
+      rows.forEach(tr => {
+        const sexo = tr.querySelector('.d2_sexoRow').value || '';
+        const grupo = tr.querySelector('.d2_grupoRow').value.trim();
+        const diag = tr.querySelector('.d2_diag').value.trim();
+        const egresos = normInt(tr.querySelector('.d2_egresosRow').value);
+
+        if (!diag) return;
+
+        lines.push([info.yyyymm, ip, ug, sexo, grupo, diag, egresos].join('|'));
+      });
+
+      return lines.join('\n');
+    }
+
+    function updatePreviewD2() {
+      const cad = buildTramaD2Cadena();
+      $('d2_preview').textContent = cad || '—';
+      const filas = cad ? cad.split('\n').length : 0;
+      $('d2_estado').textContent = filas ? filas + ' fila(s)' : 'Sin filas';
+    }
+
+    $('d2_addRow').addEventListener('click', () => {
+      createD2Row();
+      updatePreviewD2();
+    });
+
+    ['d2_periodo','d2_ipress','d2_ugipress']
+      .forEach(id => $(id).addEventListener('input', updatePreviewD2));
+
+    $('d2_btnDescargar').addEventListener('click', () => {
+      if (!validarCodigos('d2_ipress','d2_ugipress')) return;
+      const cad = buildTramaD2Cadena();
+      const fn = buildFileName($('d2_ipress').value, $('d2_periodo').value, 'TAD2');
+      descargarTexto(cad, fn);
+    });
+
+    $('d2_btnLimpiar').addEventListener('click', () => {
+      ['d2_periodo','d2_ipress','d2_ugipress'].forEach(id => $(id).value = '');
+      $('d2_body').innerHTML = '';
+      createD2Row();
+      updatePreviewD2();
+    });
+
+    $('d2_btnCopiar').addEventListener('click', () => {
+      copiarAlPortapapeles($('d2_preview').textContent);
+    });
+
+    createD2Row();
+    updatePreviewD2();
+
+    // ================= TRAMA E (desde Tipo de Parto) =================
+    function createERow() {
+      const tbody = $('e_body');
+
+      let tipoDef = '';
+      let compDef = '';
+      let partDef = 0;
+      let totalDef = 0;
+      let vivosDef = 0;
+      let muertosDef = 0;
+
+      const lastRow = tbody.lastElementChild;
+      if (lastRow) {
+        const t = lastRow.querySelector('.e_tipo');
+        const c = lastRow.querySelector('.e_comp');
+        const p = lastRow.querySelector('.e_partos');
+        const to = lastRow.querySelector('.e_totalNac');
+        const v = lastRow.querySelector('.e_vivos');
+        const m = lastRow.querySelector('.e_muertos');
+        if (t) tipoDef = t.value;
+        if (c) compDef = c.value;
+        if (p) partDef = p.value;
+        if (to) totalDef = to.value;
+        if (v) vivosDef = v.value;
+        if (m) muertosDef = m.value;
+      }
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="px-2 py-1">
+          <input type="text" class="e_tipo w-full rounded-lg border border-slate-200 p-1.5"
+                 placeholder="Parto vaginal, Cesárea, etc."
+                 value="${tipoDef}">
+        </td>
+        <td class="px-2 py-1">
+          <input type="text" class="e_comp w-full rounded-lg border border-slate-200 p-1.5"
+                 placeholder="Con / sin complicación"
+                 value="${compDef}">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0"
+                 class="e_partos w-full rounded-lg border border-slate-200 p-1.5"
+                 value="${partDef || 0}">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0"
+                 class="e_totalNac w-full rounded-lg border border-slate-200 p-1.5"
+                 value="${totalDef || 0}">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0"
+                 class="e_vivos w-full rounded-lg border border-slate-200 p-1.5"
+                 value="${vivosDef || 0}">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0"
+                 class="e_muertos w-full rounded-lg border border-slate-200 p-1.5"
+                 value="${muertosDef || 0}">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <button type="button"
+                  class="e_del text-[11px] text-rose-600 hover:underline">Quitar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+
+      tr.querySelectorAll('input').forEach(inp => inp.addEventListener('input', updatePreviewE));
+      tr.querySelector('.e_del').addEventListener('click', () => { tr.remove(); updatePreviewE(); });
+    }
+
+    function buildTramaECadena() {
+      const info = parsePeriodo($('e_periodo').value);
+      if (!info) return '';
+      const ip = padIpres($('e_ipress').value);
+      const ug = padIpres($('e_ugipress').value);
+
+      const rows = Array.from(document.querySelectorAll('#e_body tr'));
+      const lines = [];
+      rows.forEach(tr => {
+        const tipo = tr.querySelector('.e_tipo').value.trim();
+        if (!tipo) return;
+        const comp = tr.querySelector('.e_comp').value.trim();
+        const partos = normInt(tr.querySelector('.e_partos').value);
+        const totalNac = normInt(tr.querySelector('.e_totalNac').value);
+        const vivos = normInt(tr.querySelector('.e_vivos').value);
+        const muertos = normInt(tr.querySelector('.e_muertos').value);
+
+        lines.push([info.yyyymm, ip, ug, tipo, comp, partos, totalNac, vivos, muertos].join('|'));
+      });
+      return lines.join('\n');
+    }
+
+    function updatePreviewE() {
+      const cad = buildTramaECadena();
+      $('e_preview').textContent = cad || '—';
+      const filas = cad ? cad.split('\n').length : 0;
+      $('e_estado').textContent = filas ? filas + ' fila(s)' : 'Sin filas';
+    }
+
+    $('e_addRow').addEventListener('click', () => { createERow(); updatePreviewE(); });
+    ['e_periodo','e_ipress','e_ugipress']
+      .forEach(id => $(id).addEventListener('input', updatePreviewE));
+
+    $('e_btnDescargar').addEventListener('click', () => {
+      if (!validarCodigos('e_ipress','e_ugipress')) return;
+      const cad = buildTramaECadena();
+      const fn = buildFileName($('e_ipress').value, $('e_periodo').value, 'TAE0');
+      descargarTexto(cad, fn);
+    });
+
+    $('e_btnLimpiar').addEventListener('click', () => {
+      ['e_periodo','e_ipress','e_ugipress'].forEach(id => $(id).value = '');
+      $('e_body').innerHTML = '';
+      createERow();
+      updatePreviewE();
+    });
+
+    $('e_btnCopiar').addEventListener('click', () => {
+      copiarAlPortapapeles($('e_preview').textContent);
+    });
+
+    createERow();
+    updatePreviewE();
+
+    // ================= TRAMA F (desde Sexo del Paciente) =================
+    function createFRow() {
+      const tbody = $('f_body');
+
+      let sexoDef = '';
+      let eventosDef = 0;
+      let totalDef = 0;
+      let grupoDef = '';
+
+      const lastRow = tbody.lastElementChild;
+      if (lastRow) {
+        const s = lastRow.querySelector('.f_sexoRow');
+        const e = lastRow.querySelector('.f_eventosRow');
+        const t = lastRow.querySelector('.f_totalRow');
+        const g = lastRow.querySelector('.f_grupo');
+        if (s) sexoDef = s.value || '';
+        if (e) eventosDef = e.value;
+        if (t) totalDef = t.value;
+        if (g) grupoDef = g.value;
+      }
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="px-2 py-1">
+          <select class="f_sexoRow w-full rounded-lg border border-slate-200 p-1.5">
+            <option value="">Seleccionar…</option>
+            <option value="M"${sexoDef === 'M' ? ' selected' : ''}>M</option>
+            <option value="F"${sexoDef === 'F' ? ' selected' : ''}>F</option>
+            <option value="O"${sexoDef === 'O' ? ' selected' : ''}>O</option>
+          </select>
+        </td>
+        <td class="px-2 py-1">
+          <input type="text"
+                 class="f_grupo w-full rounded-lg border border-slate-200 p-1.5"
+                 placeholder="0-4, 5-11, etc."
+                 value="${grupoDef}">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0"
+                 class="f_eventosRow w-full rounded-lg border border-slate-200 p-1.5"
+                 value="${eventosDef || 0}">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0"
+                 class="f_totalRow w-full rounded-lg border border-slate-200 p-1.5"
+                 value="${totalDef || 0}">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <button type="button"
+                  class="f_del text-[11px] text-rose-600 hover:underline">Quitar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+      tr.querySelectorAll('input, select').forEach(inp => inp.addEventListener('input', updatePreviewF));
+      tr.querySelector('.f_del').addEventListener('click', () => { tr.remove(); updatePreviewF(); });
+    }
+
+    function buildTramaFCadena() {
+      const info = parsePeriodo($('f_periodo').value);
+      if (!info) return '';
+      const ip = padIpres($('f_ipress').value);
+      const ug = padIpres($('f_ugipress').value);
+
+      const rows = Array.from(document.querySelectorAll('#f_body tr'));
+      const lines = [];
+      rows.forEach(tr => {
+        const sexo = tr.querySelector('.f_sexoRow').value || '';
+        const grupo = tr.querySelector('.f_grupo').value.trim();
+        const eventos = normInt(tr.querySelector('.f_eventosRow').value);
+        const total = normInt(tr.querySelector('.f_totalRow').value);
+        if (!grupo) return;
+        lines.push([info.yyyymm, ip, ug, sexo, grupo, eventos, total].join('|'));
+      });
+      return lines.join('\n');
+    }
+
+    function updatePreviewF() {
+      const cad = buildTramaFCadena();
+      $('f_preview').textContent = cad || '—';
+      const filas = cad ? cad.split('\n').length : 0;
+      $('f_estado').textContent = filas ? filas + ' fila(s)' : 'Sin filas';
+    }
+
+    $('f_addRow').addEventListener('click', () => { createFRow(); updatePreviewF(); });
+    ['f_periodo','f_ipress','f_ugipress']
+      .forEach(id => $(id).addEventListener('input', updatePreviewF));
+
+    $('f_btnDescargar').addEventListener('click', () => {
+      if (!validarCodigos('f_ipress','f_ugipress')) return;
+      const cad = buildTramaFCadena();
+      const fn = buildFileName($('f_ipress').value, $('f_periodo').value, 'TAF0');
+      descargarTexto(cad, fn);
+    });
+
+    $('f_btnLimpiar').addEventListener('click', () => {
+      ['f_periodo','f_ipress','f_ugipress'].forEach(id => $(id).value = '');
+      $('f_body').innerHTML = '';
+      createFRow();
+      updatePreviewF();
+    });
+
+    $('f_btnCopiar').addEventListener('click', () => {
+      copiarAlPortapapeles($('f_preview').textContent);
+    });
+
+    createFRow();
+    updatePreviewF();
+
+    // ================= TRAMA J =================
+    function createJRow() {
+      const tbody = $('j_body');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="px-2 py-1">
+          <input type="text" class="j_cod w-full rounded-lg border border-slate-200 p-1.5" placeholder="CMP, CEP, CIP...">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_total w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_amb w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_emerg w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_hosp w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_adm w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_cap w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_cq w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_co w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_proc w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <input type="number" min="0" class="j_otras w-full rounded-lg border border-slate-200 p-1.5" value="0">
+        </td>
+        <td class="px-2 py-1 text-center">
+          <button type="button" class="j_del text-[11px] text-rose-600 hover:underline">Quitar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+      tr.querySelectorAll('input').forEach(inp => inp.addEventListener('input', updatePreviewJ));
+      tr.querySelector('.j_del').addEventListener('click', () => { tr.remove(); updatePreviewJ(); });
+    }
+
+    function buildTramaJCadena() {
+      const info = parsePeriodo($('j_periodo').value);
+      if (!info) return '';
+      const ip = padIpres($('j_ipress').value);
+      const ug = padIpres($('j_ugipress').value);
+      const rows = Array.from(document.querySelectorAll('#j_body tr'));
+      const lines = [];
+      rows.forEach(tr => {
+        const cod = tr.querySelector('.j_cod').value.trim();
+        if (!cod) return;
+        const total = normInt(tr.querySelector('.j_total').value);
+        const amb = normInt(tr.querySelector('.j_amb').value);
+        const emerg = normInt(tr.querySelector('.j_emerg').value);
+        const hosp = normInt(tr.querySelector('.j_hosp').value);
+        const adm = normInt(tr.querySelector('.j_adm').value);
+        const cap = normInt(tr.querySelector('.j_cap').value);
+        const cq = normInt(tr.querySelector('.j_cq').value);
+        const co = normInt(tr.querySelector('.j_co').value);
+        const proc = normInt(tr.querySelector('.j_proc').value);
+        const otras = normInt(tr.querySelector('.j_otras').value);
+        lines.push([
+          info.yyyymm, ip, ug, cod, total, amb, emerg, hosp,
+          adm, cap, cq, co, proc, otras
+        ].join('|'));
+      });
+      return lines.join('\n');
+    }
+
+    function updatePreviewJ() {
+      const cad = buildTramaJCadena();
+      $('j_preview').textContent = cad || '—';
+      const filas = cad ? cad.split('\n').length : 0;
+      $('j_estado').textContent = filas ? filas + ' fila(s)' : 'Sin filas';
+    }
+
+    $('j_addRow').addEventListener('click', () => { createJRow(); updatePreviewJ(); });
+    ['j_periodo','j_ipress','j_ugipress'].forEach(id => $(id).addEventListener('input', updatePreviewJ));
+
+    $('j_btnDescargar').addEventListener('click', () => {
+      if (!validarCodigos('j_ipress','j_ugipress')) return;
+      const cad = buildTramaJCadena();
+      const fn = buildFileName($('j_ipress').value, $('j_periodo').value, 'TAJ0');
+      descargarTexto(cad, fn);
+    });
+
+    $('j_btnLimpiar').addEventListener('click', () => {
+      $('j_periodo').value = '';
+      $('j_ipress').value = '';
+      $('j_ugipress').value = '';
+      $('j_body').innerHTML = '';
+      createJRow();
+      updatePreviewJ();
+    });
+
+    $('j_btnCopiar').addEventListener('click', () => {
+      copiarAlPortapapeles($('j_preview').textContent);
+    });
+
+    createJRow();
+    updatePreviewJ();
+
+    // ================= LOGO (cambiar imagen del header) =================
+    const logoInput = $('logoInput');
+    if (logoInput) {
+      logoInput.addEventListener('change', (e) => {
+        const file = (e.target.files || [])[0];
+        if (!file || !file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = $('logoMinsa');
+          if (img) {
+            img.src = ev.target.result;
+            img.classList.remove('hidden');
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+</body>
+</html>
